@@ -6,11 +6,11 @@
 #ifndef ClueLess_H //Header Guard
 #define ClueLess_H //Header Guard
 #include <fstream>
-#include "Material.h"
-#include "Ship.h"
 #include <string>
+#include <vector>
+#include <iostream>
+#include <stdexcept>
 
-namespace clue{
 
 class ClueLess {
 public:
@@ -21,18 +21,27 @@ public:
     ClueLess(); //Default Constructor
 
     // Name: StartGame()
-    // Desc - Manages the game itself including win conditions continually
-    //         calling the main menu 
+    // Desc - Manages the game itself including win conditions continually calling the main menu 
     void StartGame();
 
+    void BuildBoard();
+
+    int GetPlayerNum();
+
+    void WhoIsWho();
+
+    // helper to add rooms and can also use to attach to character
+    //void AttachHalls2Room(Hallway h1, Hallway h2, Room r)
+
     // Name: MainMenu()
-    // Desc - Displays and manages menu. Also checks win condition (Ship reaches S rank).
+    // Desc - Displays and manages menu
     int MainMenu();
 
-private:
-    Ship m_myShip; //Player's Ship for the game
-    Material m_materials[PROJ2_SIZE]; //All materials in the game (loaded from file)
+    // std::vector<Character> player_list;
+    std::vector<int> player_list;
+    std::vector<std::string> all_char_list;
+    int player_num;
+
 };
-}
 
 #endif //Exit Header Guard

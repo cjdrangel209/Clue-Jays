@@ -67,4 +67,4 @@ private:
     bool occupied;
 };
 
-#endif // ROOM_HALLWAY_H
+#endif

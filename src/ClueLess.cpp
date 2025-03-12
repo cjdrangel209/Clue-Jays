@@ -211,21 +211,28 @@ void ClueLess::MainMenu() {
         // in a hallway
         /*if (this->player_list.at(turn).getHallway())
         {
-            std::cout << "0: Move to the " << this->player_list.at(turn).getHallway().getLeft().getName() << std::endl;
-            std::cout << "1: Move to the " << this->player_list.at(turn).getHallway().getRight().getName() << std::endl;
-            std::cout << "2: View cards << std::endl;
-            std::cout << "3: View location << std::endl;
-
             bool not_int = true;
             while (not_int)
             {
+                
+                std::cout << "0: Move to the " << this->player_list.at(turn).getHallway().getLeft().getName() << std::endl;
+                std::cout << "1: Move to the " << this->player_list.at(turn).getHallway().getRight().getName() << std::endl;
+                std::cout << "2: View cards << std::endl;
+                std::cout << "3: View location << std::endl;
+
                 try {
                     std::cin >> choice_str;
                     choice = std::stoi(choice_str);
                     if (choice <= 3 && choice >= 0)
                     {
-                        not_int = false;
-                        this->HallChoice(choice);
+                        // if they view cards or location get it again
+                        if (choice == 2 || choice == 3){
+                            this->HallChoice(choice);
+                        }
+                        else{
+                            not_int = false;
+                            this->HallChoice(choice);
+                        }
                     }
                     else
                     {
@@ -245,6 +252,11 @@ void ClueLess::MainMenu() {
         //else
         //{
         //    int option = 0;
+        
+
+        //    bool not_int = true;
+        //    while (not_int)
+        //    {
         //    std::vector<Hallway> room_options;
         //    // check which hallways are available
         //    if (this->player_list.at(turn).getRoom().getLeft() && !this->player_list.at(turn).getRoom().getLeft().getOccupied()){
@@ -281,17 +293,20 @@ void ClueLess::MainMenu() {
         // 
         //    std::cout << option << ": Make accusation " << std::endl;
         //    option ++;
-
-        //    bool not_int = true;
-        //    while (not_int)
-        //    {
+        // 
         //        try {
         //            std::cin >> choice_str;
         //            choice = std::stoi(choice_str);
         //            if (choice <= option && choice >= 0)
         //            {
-        //                not_int = false;
-        //                RoomChoice(int choice, int option);
+        //                // if they view cards or location get it again
+                          /*if (choice == option - 1 || choice == option - 2) {
+                            this->RoomChoice(int choice, int option); 
+                          }
+                          else {*/
+        //                  not_int = false;
+        //                  this->RoomChoice(int choice, int option);
+        //                }
         //            }
         //            else
         //            {
@@ -415,6 +430,12 @@ void ClueLess::Accusation() {
 }
 
 //void ClueLess::CheckPick(int character, int weapon, Room room) {
+//  for(Character &i : this->player_list){
+//      if (i.getName() == this->all_char_list.at(character)){
+//          i.setRoom = this->player_list.at(turn).getRoom();
+//          i.setHallway = nullptr;
+//      }
+//  }
 //  // see if anyone can disprove you
 //  for(const Character &i : this->player_list){
 //      for(Cards &j : i.getCards){

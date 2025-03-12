@@ -35,12 +35,48 @@ public:
 
     // Name: MainMenu()
     // Desc - Displays and manages menu
-    int MainMenu();
+    void MainMenu();
+
+    void HallChoice(int choice);
+
+    void RoomChoice(int choice, int option);
+    //void RoomChoice(int choice, int option, std::vector<Hallway> halls);
+
+    void Accusation();
+
+    //void CheckPick(int character, int weapon, Room room)
 
     // std::vector<Character> player_list;
     std::vector<int> player_list;
     std::vector<std::string> all_char_list;
+    std::vector<std::string> all_weapons_list;
+    //std::vector<Card> answers;
     int player_num;
+    int turn;
+    bool win;
+    //Halway h0;
+    //Halway h1;
+    //Halway h2;
+    //Halway h3;
+    //Halway h4;
+    //Halway h5;
+    //Halway h6;
+    //Halway h7;
+    //Halway h8;
+    //Halway h9;
+    //Halway h10;
+    //Halway h11;
+
+    //Room r0;
+    //Room r1;
+    //Room r2;
+    //Room r3;
+    //Room r4;
+    //Room r5;
+    //Room r6;
+    //Room r7;
+    //Room r8;
+ 
 
 };
 

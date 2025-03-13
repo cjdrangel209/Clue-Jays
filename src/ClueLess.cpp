@@ -17,15 +17,6 @@ ClueLess::ClueLess(){
 }
 
 void ClueLess::StartGame() {
-    // print out list of players and then who is who
-    // need a list of character objects
-    // need to create all rooms and hallways and connect them
-    // give the characters the hallway (should be set from their)
-    // initialize deck for players (give them the character objects so they can give them the cards)
-    // game loops through players and gives them options
-    
-    // TODO: make all halways and room and implement AttachHalls2Room,
-    // call deck, and implement main menu, make win condition
 
     this->player_num = GetPlayerNum();
     this->WhoIsWho();
@@ -64,6 +55,7 @@ void ClueLess::BuildBoard() {
     //h10 = Halway();
     //h11 = Halway();
     //
+    // // build out the board
     //r0 = Room("Study", nullptr, h0, nullptr, h2, nullptr);
     //r1 = Room("Hall", h0, h1, nullptr, h3, nullptr);
     //r2 = Room("Lounge", h1, nullptr, nullptr, h4, nullptr);
@@ -94,7 +86,7 @@ void ClueLess::BuildBoard() {
     //r6.setSecretPassage(r2);
     //r8.setSecretPassage(r0);
 
-    //"Miss Scarlet", "Col. Mustard", "Mrs. White", "Prof. Plum", "Mrs. Peacock", "Mr. Green" 
+    // // Go through all used characters and place them in their hallway
     /*for (int i = 0; i < this->player_list.size(); i++) {
         if(this->player_list.at(i).getName == "Miss Scarlet"){
             this->player_list.at(i).setPosition(h1)
@@ -126,11 +118,13 @@ int ClueLess::GetPlayerNum() {
     int num_player = 0;
 
     bool not_int = true;
+    // input validation
     while (not_int)
     {
         try {
             std::cin >> num_player_str;
             num_player = std::stoi(num_player_str);
+            // min of 2 and max of 6 players
             if (num_player <= 6 && num_player >= 2)
             {
                 not_int = false;
@@ -162,6 +156,7 @@ void ClueLess::WhoIsWho() {
         int choice = 0;
 
         bool not_int = true;
+        // input validation
         while (not_int)
         {
             try {
@@ -212,6 +207,7 @@ void ClueLess::MainMenu() {
         /*if (this->player_list.at(turn).getHallway())
         {
             bool not_int = true;
+            // input validation
             while (not_int)
             {
                 
@@ -225,7 +221,7 @@ void ClueLess::MainMenu() {
                     choice = std::stoi(choice_str);
                     if (choice <= 3 && choice >= 0)
                     {
-                        // if they view cards or location get it again
+                        // if they view cards or location go again
                         if (choice == 2 || choice == 3){
                             this->HallChoice(choice);
                         }
@@ -251,10 +247,12 @@ void ClueLess::MainMenu() {
         // in a room
         //else
         //{
+        // // used to keep track of total amount of options given
         //    int option = 0;
         
 
         //    bool not_int = true;
+        // // input validation
         //    while (not_int)
         //    {
         //    std::vector<Hallway> room_options;
@@ -332,22 +330,26 @@ void ClueLess::MainMenu() {
 }
 
 void ClueLess::HallChoice(int choice) {
-    /*if (choice == 0) {
+    /*// move left/up
+    if (choice == 0) {
         this->player_list.at(turn).setHallway(nullptr);
         this->player_list.at(turn).setRoom(this->player_list.at(turn).getHallway().getLeft());
 
     }
+    // move right/down
     else if (choice == 1) {
         this->player_list.at(turn).setHallway(nullptr);
         this->player_list.at(turn).setRoom(this->player_list.at(turn).getHallway().getRight());
 
     }
+    // get cards
     else if (choice == 2){
         for (int i = 0; i < this->player_list.at(turn).getCards().size(); i++)
         {
             std::cout << this->player_list.at(turn).getCards().at(i).getName() << std::endl;
         }
     }
+    // get location
     else{
         if (this->player_list.at(turn).getHallway()){
             std::cout << "Between " << this->player_list.at(turn).getHallway().getLeft().getName << " and " << this->player_list.at(turn).getHallway().getRight().getName << std::endl;
@@ -362,12 +364,14 @@ void ClueLess::HallChoice(int choice) {
 void ClueLess::RoomChoice(int choice, int option) {
 // void ClueLess::RoomChoice(int choice, int option, std::vector<Hallway> halls) {
     /*int rooms = halls.size();
+    // get cards
     if (choice == rooms + 1){
         for (int i = 0; i < this->player_list.at(turn).getCards().size(); i++)
         {
             std::cout << this->player_list.at(turn).getCards().at(i).getName() << std::endl;
         }
     }
+    get location
     else if (choice == rooms + 2){
         if (this->player_list.at(turn).getHallway()){
             std::cout << "Between " << this->player_list.at(turn).getHallway().getLeft().getName << " and " << this->player_list.at(turn).getHallway().getRight().getName << std::endl;
@@ -378,9 +382,9 @@ void ClueLess::RoomChoice(int choice, int option) {
     }
     // accusation
     else if (choice == rooms + 3){
-        // call an function
         Accusation();
     }
+    // look through available rooms and move to the coresponding option's associated room
     else{
         int which_room = 0;
         while (which_room != choice){
@@ -405,12 +409,13 @@ void ClueLess::Accusation() {
     }
 
     bool not_int = true;
+    // input validation
     while (not_int)
     {
         try {
             std::cin >> choice_str;
             choice = std::stoi(choice_str);
-            if (choice <= 99 && choice >= 10)
+            if (choice <= 66 && choice >= 11)
             {
                 not_int = false;
                 int character = choice / num_prints;
@@ -430,6 +435,7 @@ void ClueLess::Accusation() {
 }
 
 //void ClueLess::CheckPick(int character, int weapon, Room room) {
+// // move character into the room if they are in play
 //  for(Character &i : this->player_list){
 //      if (i.getName() == this->all_char_list.at(character)){
 //          i.setRoom = this->player_list.at(turn).getRoom();

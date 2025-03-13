@@ -127,6 +127,11 @@ public:
     size_t cardsLeft() const {
         return cards.size();
     }
+    
+    // Function to return the murder cards as a vector
+    std::vector<Card> getMurderCards() const {
+      return {murderCharacter, murderWeapon, murderRoom};
+    }
 
     // Reveal the murder cards (the secret solution)
     void revealMurderCards() const {

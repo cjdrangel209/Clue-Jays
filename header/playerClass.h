@@ -3,9 +3,8 @@
 
 #include <string>
 #include <vector>
-#include "Hallway.h" // Assuming the Hallway class is in this file
-#include "Room.h"    // Assuming the Room class is in this file
-#include "Card.h"    // Including Card class to manage player's hand
+#include "../header/view.h" 
+#include "../header/cardClass.h"    // Including Card class to manage player's hand
 
 class Player {
 public:

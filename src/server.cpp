@@ -1,3 +1,8 @@
+#define WIN32_LEAN_AND_MEAN
+#include <winsock2.h>
+#include <windows.h>
+#include <ws2tcpip.h>
+#include <io.h>
 #include <iostream>
 #include <string>
 #include <cstdlib>
@@ -7,59 +12,73 @@
 //#include <netinet/in.h>
 //#include <unistd.h>
 
-//Includes for Windows
-#include <WinSock2.h>
-#include <Ws2tcpip.h>
-#include <io.h>
+#pragma comment (lib, "Ws2_32.lib")
 
-int main() {
-    int server_fd, new_socket;
-    struct sockaddr_in address;
-    char opt = 1;
-    int addrlen = sizeof(address);
-    char buffer[1024] = { 0 };
-    char *hello = "Hello from server";
-    std::string message = "Program executed successfully\n";
-
-    // Creating socket file descriptor
-    if ((server_fd = socket(AF_INET, SOCK_STREAM, 0)) == 0) {
-        perror("socket failed");
-        exit(EXIT_FAILURE);
+int main()
+{
+    WSADATA wsaData;
+    if(WSAStartup(MAKEWORD(2, 2), &wsaData) != 0)
+    {
+        return 1;
     }
 
-    // Forcefully attaching socket to the port 8080
-    if (setsockopt(server_fd, SOL_SOCKET, SO_REUSEADDR, &opt, sizeof(opt))) {
-        perror("setsockopt");
-        exit(EXIT_FAILURE);
+    SOCKET serverSocket = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
+    if(serverSocket == INVALID_SOCKET)
+    {
+        WSACleanup();
+        return 1;
     }
-    address.sin_family = AF_INET;
-    address.sin_addr.s_addr = INADDR_ANY;
-    address.sin_port = htons(8080);
 
-    // Forcefully attaching socket to the port 8080
-    if (bind(server_fd, (struct sockaddr*)&address, sizeof(address)) < 0) {
-        perror("bind failed");
-        exit(EXIT_FAILURE);
+    sockaddr_in serverAddr;
+    serverAddr.sin_family = AF_INET;
+    serverAddr.sin_addr.s_addr = INADDR_ANY;
+    serverAddr.sin_port = htons(8080);
+    if(bind(serverSocket, (sockaddr*)&serverAddr, sizeof(serverAddr)) == SOCKET_ERROR)
+    {
+        closesocket(serverSocket);
+        WSACleanup();
+        return 1;
     }
-    if (listen(server_fd, 3) < 0) {
-        perror("listen failed");
-        exit(EXIT_FAILURE);
-    }
-    if ((new_socket = accept(server_fd, (struct sockaddr*)&address, (socklen_t*)&addrlen)) < 0) {
-        perror("accept failed");
-        exit(EXIT_FAILURE);
-    }
-    
-    //EXECUTE THE PROGRAM
-    //system("./my_program");
 
-    read(new_socket, buffer, 1024);
-    std::cout << "Message from client: " << buffer << std::endl;
-    send(new_socket, hello, strlen(hello), 0);
-    std::cout << "Hello message sent" << std::endl;
+    if(listen(serverSocket, SOMAXCONN) == SOCKET_ERROR)
+    {
+        closesocket(serverSocket);
+        WSACleanup();
+        return 1;
+    }
 
-    //send(new_socket, message.c_str(), message.length(), 0);
-    close(new_socket);
-    close(server_fd);
+    SOCKET clientSocket = accept(serverSocket, NULL, NULL);
+    if(clientSocket == INVALID_SOCKET)
+    {
+        closesocket(serverSocket);
+        WSACleanup();
+        return 1;
+    }
+
+    system("./Program.exe");
+
+    while(true){
+        char buffer[1024];
+        int valread = recv(clientSocket, buffer, sizeof(buffer), 1024);
+        if(valread <= 0)
+        {
+            std::cout << "Client disconnected or error occurred." << std::endl;
+            break;
+        }
+
+        std::string command(buffer, valread);
+        //std::string result = exec(command.c_str());
+        send(clientSocket, buffer, valread, 0);
+    }
+    /*char buffer[1024];
+    int bytesReceived = recv(clientSocket, buffer, sizeof(buffer), 0);
+    if(bytesReceived > 0)
+    {
+        send(clientSocket, buffer, bytesReceived, 0);
+    }
+*/
+    closesocket(clientSocket);
+    WSACleanup();
+
     return 0;
 }

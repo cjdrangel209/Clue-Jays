@@ -24,7 +24,6 @@ void ClueLess::StartGame() {
     
     
     ClueDeck deck = ClueDeck();
-    std::cout<< deck.cardsLeft() << std::endl;
     deck.DealCards(player_list);
     answers = deck.getMurderCards();
     // this->answers = d.getAnswers();

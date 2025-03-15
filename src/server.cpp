@@ -18,6 +18,7 @@ int main() {
     char opt = 1;
     int addrlen = sizeof(address);
     char buffer[1024] = { 0 };
+    char *hello = "Hello from server";
     std::string message = "Program executed successfully\n";
 
     // Creating socket file descriptor
@@ -50,9 +51,14 @@ int main() {
     }
     
     //EXECUTE THE PROGRAM
-    system("./my_program");
+    //system("./my_program");
 
-    send(new_socket, message.c_str(), message.length(), 0);
+    read(new_socket, buffer, 1024);
+    std::cout << "Message from client: " << buffer << std::endl;
+    send(new_socket, hello, strlen(hello), 0);
+    std::cout << "Hello message sent" << std::endl;
+
+    //send(new_socket, message.c_str(), message.length(), 0);
     close(new_socket);
     close(server_fd);
     return 0;

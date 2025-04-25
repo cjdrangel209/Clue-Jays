@@ -52,11 +52,11 @@ public:
         // Prepare character cards
         std::vector<Cards> characters = {
             {"Miss Scarlet", Cards::CardType::CHARACTER},
-            {"Professor Plum", Cards::CardType::CHARACTER},
+            {"Prof. Plum", Cards::CardType::CHARACTER},
             {"Mrs. Peacock", Cards::CardType::CHARACTER},
             {"Mr. Green", Cards::CardType::CHARACTER},
             {"Mrs. White", Cards::CardType::CHARACTER},
-            {"Colonel Mustard", Cards::CardType::CHARACTER}
+            {"Col. Mustard", Cards::CardType::CHARACTER}
         };
 
         // Prepare weapon cards

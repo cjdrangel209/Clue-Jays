@@ -26,6 +26,7 @@ void ClueLess::StartGame() {
     ClueDeck deck = ClueDeck();
     deck.DealCards(player_list);
     answers = deck.getMurderCards();
+    //std::cout << answers.at(0).getName() << " " << answers.at(1).getName() << " " << answers.at(2).getName() << std::endl;
     // this->answers = d.getAnswers();
 
     this->turn = 0;
@@ -454,6 +455,7 @@ void ClueLess::Accusation() {
                 // acount for the user input starting at 1 instead of 0, the vector of characters starts at 0
                 int character = (choice / 10) - 1;
                 int weapon = (choice % 10) - 1;
+                std::cout << weapon << std::endl;
                 this->CheckPick(character, weapon, this->player_list.at(turn).getCurrentRoom());
             }
             else
@@ -482,12 +484,13 @@ void ClueLess::CheckPick(int character, int weapon, Room* room) {
     // see if anyone can disprove you
     for(const Player &i : this->player_list){
         for(Card &j : i.getCards()){
+
             if (j.getName() == this->all_char_list.at(character)) {
                 std::cout << "Incorrect " << this->all_char_list.at(character) << " was not the killer" << std::endl;
                 return;
             }
             else if (j.getName() == this->all_weapons_list.at(weapon)) {
-                std::cout << "Incorrect " << this->all_weapons_list.at(character) << " was not the weapon" << std::endl;
+                std::cout << "Incorrect " << this->all_weapons_list.at(weapon) << " was not the weapon" << std::endl;
                 return;
             }
             else if (j.getName() == this->player_list.at(turn).getCurrentRoom()->getName()) {
@@ -496,6 +499,7 @@ void ClueLess::CheckPick(int character, int weapon, Room* room) {
             }
         }
     }
+
     if (this->all_char_list.at(character) == answers.at(0).getName()){
         std::cout << "Correct " << answers.at(0).getName() << " was the killer" << std::endl;
     }
@@ -503,11 +507,11 @@ void ClueLess::CheckPick(int character, int weapon, Room* room) {
         std::cout << "Incorrect " << this->all_char_list.at(character) << " was not the killer" << std::endl;
         return;
     }
-    if (this->all_weapons_list.at(character) == answers.at(1).getName()){
+    if (this->all_weapons_list.at(weapon) == answers.at(1).getName()){
         std::cout << "Correct " << answers.at(1).getName() << " was the weapon" << std::endl;
     }
     else{
-        std::cout << "Incorrect " << this->all_weapons_list.at(character) << " was not the weapon" << std::endl;
+        std::cout << "Incorrect " << this->all_weapons_list.at(weapon) << " was not the weapon" << std::endl;
         return;
     }
     if (this->player_list.at(turn).getCurrentRoom()->getName() == answers.at(2).getName()){
